@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body, Path, Query, Request, HTTPException, Depends
+from fastapi import FastAPI, Path, Query, Request, HTTPException, Depends
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel, Field
 from typing import Optional, List
@@ -7,10 +7,12 @@ from fastapi.security import HTTPBearer
 from config.database import Session, engine, Base
 from models.movie import Movie as MovieModel
 from fastapi.encoders import jsonable_encoder
+from midlewares.error_handler import ErrorHander
 
 app = FastAPI()
 app.title = "Movie REST API"
 app.version = "0.0.1"
+app.add_middleware(ErrorHander)
 
 Base.metadata.create_all(bind=engine)
 
